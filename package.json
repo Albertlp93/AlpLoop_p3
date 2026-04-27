@@ -19,6 +19,10 @@
   },
   "homepage": "https://github.com/Albertlp93/AlpLoop_p3#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "@apollo/server": "^5.5.0",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "graphql": "^16.13.2"
   }
 }
