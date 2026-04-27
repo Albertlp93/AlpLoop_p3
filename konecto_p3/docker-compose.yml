@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  # SERVICIO 1: Tu servidor Node.js (Express + GraphQL)
+  app:
+    build: .
+    container_name: konecto_app
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGO_URI=${MONGO_URI}  # Docker lee la URI de tu archivo .env
+      - PORT=${PORT}
+    depends_on:
+      - mongodb                # Espera a que la base de datos arranque primero
+
+  # SERVICIO 2: La base de datos MongoDB local
+  mongodb:
+    image: mongo:latest
+    container_name: konecto_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db    # Esto hace que tus datos NO se borren al apagar Docker
+
+# Definimos el volumen para la persistencia local
+volumes:
+  mongo_data:

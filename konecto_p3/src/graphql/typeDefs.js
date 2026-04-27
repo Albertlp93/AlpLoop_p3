@@ -1,16 +1,9 @@
-/*DEFINICION DE LOS ESQUEMAS TYPES*/
-
-/**
- * src/graphql/typeDefs.js
- * Definición de los esquemas de datos (SDL - Schema Definition Language).
- */
-
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  # Objeto de Usuario adaptado del Producto 2
+  # Objeto de Usuario
   type Usuario {
-    id: ID!
+    id: ID!            # En GraphQL pediremos 'id'
     nombre: String!
     email: String!
     password: String
@@ -18,7 +11,7 @@ const typeDefs = gql`
 
   # Objeto de Voluntariado (Ofertas y Demandas)
   type Voluntariado {
-    id: ID!
+    id: ID!            # En GraphQL pediremos 'id'
     titulo: String!
     tipo: String!
     descripcion: String
@@ -28,21 +21,21 @@ const typeDefs = gql`
   }
 
   type Query {
-    # Equivale a obtenerUsuarios()
+    # Obtener todos los usuarios
     obtenerUsuarios: [Usuario]
 
-    # Equivale a loguearUsuario(email, password)
+    # Login de usuario
     loginUsuario(email: String!, password: String!): Usuario
 
-    # Equivale a obtenerVoluntariados()
+    # Obtener todos los voluntariados
     obtenerVoluntariados: [Voluntariado]
   }
 
   type Mutation {
-    # Equivale a guardarUsuario(usuario)
+    # Registro de nuevo usuario
     registrarUsuario(nombre: String!, email: String!, password: String!): Usuario
 
-    # Equivale a guardarVoluntariado(datos)
+    # Registro de nuevo voluntariado
     crearVoluntariado(
       titulo: String!, 
       tipo: String!, 
@@ -52,7 +45,7 @@ const typeDefs = gql`
       email: String!
     ): Voluntariado
 
-    # Equivale a borrarVoluntariado(id)
+    # Eliminar un voluntariado por su ID
     eliminarVoluntariado(id: ID!): String
   }
 `;
