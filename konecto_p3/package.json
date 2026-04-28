@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "docs": "jsdoc -c jsdoc.json" 
   },
+  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Albertlp93/AlpLoop_p3.git"
@@ -25,6 +29,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "graphql": "^16.13.2",
-    "mongodb": "^7.2.0"
+    "mongodb": "^7.2.0",
+    "bcryptjs": "^2.4.3"
   }
 }

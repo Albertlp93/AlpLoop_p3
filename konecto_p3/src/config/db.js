@@ -1,9 +1,9 @@
 /**
- * src/config/db.js
- * Configuración de la conexión a MongoDB
+ * @file db.js
+ * @description Gestión de la conexión a MongoDB. Configurado para entornos Docker y Atlas.
  */
 
-// Refuerzo de crypto también aquí por si el driver inicializa antes
+// Fix de compatibilidad para entornos Linux/Docker
 if (!global.crypto) {
     global.crypto = require('crypto');
 }
@@ -11,42 +11,40 @@ if (!global.crypto) {
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
+/** @constant {string} uri - URI de conexión (Local o Cloud Atlas) */
 const uri = process.env.MONGO_URI;
 
 if (!uri) {
-    console.error("❌ ERROR: MONGO_URI no definida en el archivo .env");
+    console.error("❌ ERROR: MONGO_URI no definida en .env");
     process.exit(1);
 }
 
-// Creamos el cliente
 const client = new MongoClient(uri);
+let db = null;
 
-let db;
-
+/**
+ * Establece la conexión con MongoDB.
+ * @async
+ * @returns {Promise<Db>} Instancia de la base de datos.
+ */
 async function conectarDB() {
     try {
-        console.log("⏳ Conectando a la base de datos NoSQL...");
-        
         await client.connect();
-        db = client.db(); // Usa la DB definida en la URL o 'test' por defecto
-        
-        console.log("================================================");
-        console.log("✅ ¡ÉXITO! Conexión establecida");
-        console.log(`📦 DB Name: ${db.databaseName}`);
-        console.log("================================================");
-        
+        db = client.db(); 
+        console.log(`✅ Conexión exitosa a DB: ${db.databaseName}`);
         return db;
     } catch (error) {
-        console.error("================================================");
-        console.error("❌ ERROR DE CONEXIÓN A MONGODB:");
-        console.error(error.message);
-        console.log("================================================");
+        console.error("❌ Error de conexión a MongoDB:", error.message);
         process.exit(1);
     }
 }
 
+/**
+ * Retorna la instancia activa de la base de datos.
+ * @returns {Db}
+ */
 function getDB() {
-    if (!db) throw new Error("DB no inicializada");
+    if (!db) throw new Error("Base de datos no inicializada.");
     return db;
 }
 

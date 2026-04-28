@@ -1,18 +1,28 @@
+/**
+ * @file typeDefs.js
+ * @description Definición del esquema de GraphQL (SDL).
+ * Incluye operaciones de gestión masiva y tipos de datos del Producto 2.
+ */
+
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  # Objeto de Usuario
+  """
+  Representa a un usuario en el sistema Konecto.
+  """
   type Usuario {
-    id: ID!            # En GraphQL pediremos 'id'
+    id: ID!
     nombre: String!
     email: String!
-    password: String
   }
 
-  # Objeto de Voluntariado (Ofertas y Demandas)
+  """
+  Representa una oferta o demanda de voluntariado.
+  """
   type Voluntariado {
-    id: ID!            # En GraphQL pediremos 'id'
+    id: ID!
     titulo: String!
+    "Categoría: OFERTA o DEMANDA"
     tipo: String!
     descripcion: String
     jornada: String
@@ -21,21 +31,25 @@ const typeDefs = gql`
   }
 
   type Query {
-    # Obtener todos los usuarios
+    "Obtener todos los usuarios registrados"
     obtenerUsuarios: [Usuario]
 
-    # Login de usuario
+    "Validar credenciales de acceso"
     loginUsuario(email: String!, password: String!): Usuario
 
-    # Obtener todos los voluntariados
+    "Listado completo de voluntariados"
     obtenerVoluntariados: [Voluntariado]
   }
 
   type Mutation {
-    # Registro de nuevo usuario
-    registrarUsuario(nombre: String!, email: String!, password: String!): Usuario
+    "Registro de nuevo usuario con cifrado Bcrypt"
+    registrarUsuario(
+      nombre: String!, 
+      email: String!, 
+      password: String!
+    ): Usuario
 
-    # Registro de nuevo voluntariado
+    "Creación de una nueva publicación de voluntariado"
     crearVoluntariado(
       titulo: String!, 
       tipo: String!, 
@@ -45,8 +59,14 @@ const typeDefs = gql`
       email: String!
     ): Voluntariado
 
-    # Eliminar un voluntariado por su ID
+    "Eliminación individual por ID"
     eliminarVoluntariado(id: ID!): String
+
+    "ELIMINACIÓN MASIVA: Vacía la colección de voluntariados"
+    eliminarTodosVoluntariados: String
+
+    "ELIMINACIÓN MASIVA: Vacía la colección de usuarios"
+    eliminarTodosUsuarios: String
   }
 `;
 
