@@ -32,7 +32,7 @@ query {
 mutation {
   crearVoluntariado(
     titulo: "Acompañamiento Personas Mayores",
-    tipo: OFERTA,
+    tipo: "OFERTA",
     descripcion: "Se busca voluntario para paseo matutino",
     jornada: "Mañanas",
     sueldo: 0,
